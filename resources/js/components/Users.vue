@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row mt-5" v-if="$gate.isAdmin()">
+    <div class="row mt-5" v-if="$gate.isAdminOrDriver()">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -50,7 +50,7 @@
         <!-- /.card -->
       </div>
     </div>
-    <div v-if="!$gate.isAdmin()">
+    <div v-if="!$gate.isAdminOrDriver()">
       <not-found></not-found>
     </div>
 
@@ -127,7 +127,7 @@
                   <option value>Select User Role</option>
                   <option value="admin">Admin</option>
                   <option value="user">Standard User</option>
-                  <option value="user">Driver</option>
+                  <option value="driver">Driver</option>
                 </select>
                 <has-error :form="form" field="type"></has-error>
               </div>
@@ -233,7 +233,7 @@ export default {
     },
 
     loadUsers() {
-      if (this.$gate.isAdmin) {
+      if (this.$gate.isAdminOrDriver) {
         axios.get("api/user").then(({ data }) => (this.users = data.data));
       }
     },

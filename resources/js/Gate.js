@@ -11,4 +11,12 @@ export default class Gate {
     isUser() {
         return this.user.type === 'user';
     }
+
+    isAdminOrDriver() {
+        if (this.user.type === 'admin' || this.user.type === 'driver') {
+            return true;
+        }
+    }
+
+
 }
