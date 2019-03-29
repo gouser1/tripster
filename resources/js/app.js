@@ -61,7 +61,13 @@ let routes = [{
     {
         path: '/profile',
         component: require('./components/Profile.vue').default
+    },
+
+    {
+        path: '*',
+        component: require('./components/NotFound.vue').default
     }
+
 
 ]
 
