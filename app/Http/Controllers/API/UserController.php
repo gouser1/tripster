@@ -24,7 +24,7 @@ class UserController extends Controller
     {
         //  $this->authorize('isAdmin');
         if (\Gate::allows('isAdmin') || \Gate::allows('isDriver')){
-            return User::latest()->paginate(100);
+            return User::latest()->paginate(5);
         }
      
     }
