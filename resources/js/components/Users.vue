@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Users List</h3>
+            <h1 class="card-title">Users List</h1>
 
             <div class="card-tools">
               <button class="btn btn-success" @click="newModal">
