@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="row mt-5" v-if="$gate.isAdminOrDriver()">
+    <!-- Allow access to page if user is Admin !-->
+    <div class="row mt-5" v-if="$gate.isAdmin()">
       <div class="col-md-12">
         <div class="card">
           <div class="card-header">
@@ -25,7 +26,7 @@
                   <th>Registered At</th>
                   <th>Modify</th>
                 </tr>
-
+                <!-- Display users in table !-->
                 <tr v-for="user in users.data" :key="user.id">
                   <td>{{user.id}}</td>
                   <td>{{user.name}}</td>
@@ -75,7 +76,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
+          <!-- Calls updateUser and createUser function on form submit. !-->
           <form @submit.prevent="editmode ? updateUser() : createUser()">
             <div class="modal-body">
               <div class="form-group">
@@ -167,6 +168,7 @@ export default {
     return {
       editmode: false,
       users: {},
+      // Create Form instance
       form: new Form({
         id: "",
         name: "",
@@ -240,15 +242,19 @@ export default {
       });
     },
 
+    // Display users in table if current user is an Admin
     loadUsers() {
-      if (this.$gate.isAdminOrDriver) {
+      if (this.$gate.isAdmin) {
+        // Get data from user api and store in users object
         axios.get("api/user").then(({ data }) => (this.users = data));
       }
     },
 
+    // Create new user
     createUser() {
       this.$Progress.start();
       this.form
+        // Posts data to user api
         .post("api/user")
         .then(() => {
           Fire.$emit("AfterCreate");
@@ -276,7 +282,6 @@ export default {
     Fire.$on("AfterCreate", () => {
       this.loadUsers();
     });
-    //    setInterval(() => this.loadUsers(), 3000);
   }
 };
 </script>

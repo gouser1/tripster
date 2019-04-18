@@ -7,39 +7,12 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+//Import Form & error messages from vform
 import {
     Form,
     HasError,
     AlertError
 } from 'vform';
-
-/*import Vue from 'vue'
-import * as VueGoogleMaps from 'vue2-google-maps'
-
-Vue.use(VueGoogleMaps, {
-    load: {
-        key: 'AIzaSyBqegCueGlYzeJcw3Aqt9XU9PqFwbpJ7jo',
-        libraries: 'places', // This is required if you use the Autocomplete plugin
-        // OR: libraries: 'places,drawing'
-        // OR: libraries: 'places,drawing,visualization'
-        // (as you require)
-
-        //// If you want to set the version, you can do so:
-        // v: '3.26',
-    },
-
-    //// If you intend to programmatically custom event listener code
-    //// (e.g. `this.$refs.gmap.$on('zoom_changed', someFunc)`)
-    //// instead of going through Vue templates (e.g. `<GmapMap @zoom_changed="someFunc">`)
-    //// you might need to turn this on.
-    // autobindAllEvents: false,
-
-    //// If you want to manually install components, e.g.
-    //// import {GmapMarker} from 'vue2-google-maps/src/components/marker'
-    //// Vue.component('GmapMarker', GmapMarker)
-    //// then disable the following:
-    // installComponents: true,
-})*/
 
 import Gate from "./Gate";
 Vue.prototype.$gate = new Gate(window.user);
@@ -72,7 +45,7 @@ Vue.use(VueProgressBar, {
     failedColor: 'red',
     height: '3px'
 })
-
+// Vue route paths
 let routes = [{
         path: '/dashboard',
         component: require('./components/Dashboard.vue').default
@@ -80,6 +53,10 @@ let routes = [{
     {
         path: '/users',
         component: require('./components/Users.vue').default
+    },
+    {
+        path: '/map',
+        component: require('./components/Map.vue').default
     },
     {
         path: '/developer',
@@ -99,6 +76,7 @@ let routes = [{
 
 ]
 
+// Register routes to VueRouter
 const router = new VueRouter({
     mode: "history",
     routes,
@@ -107,7 +85,6 @@ const router = new VueRouter({
 
 
 let Fire = new Vue();
-
 window.Fire = Fire;
 
 

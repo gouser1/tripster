@@ -22,9 +22,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        //  $this->authorize('isAdmin');
-        if (\Gate::allows('isAdmin') || \Gate::allows('isDriver')){
-            return User::latest()->paginate(5);
+        // Return users if the current user is an Admin
+        // Returns 10 users per page
+        if (\Gate::allows('isAdmin')){
+            return User::latest()->paginate(10);
         }
      
     }
@@ -37,7 +38,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Server validation
         $this->validate($request, [
             'name'  => 'required|string|max:191',
             'email'  => 'required|string|email|max:191|unique:users',
@@ -45,7 +46,7 @@ class UserController extends Controller
             
         ]);
         
-        
+        // Creates user
         return User::create([
             'name' => $request['name'],
             'email' => $request['email'],

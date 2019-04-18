@@ -1,9 +1,6 @@
 
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -32,17 +29,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
     
 
-    <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fa fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>
+    
   </nav>
   <!-- /.navbar -->
 
@@ -50,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
+    <!-- Logo Display -->
     <a href="index3.html" class="brand-link">
       <img src="./img/logo.png" alt="Tripster logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -59,14 +46,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
+      <!-- Sidebar user panel -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">
+              <!-- Display user name !-->
               {{Auth::user()->name}}
+               <!-- Display user type !-->
               <p>{{Auth::user()->type}}</p>
           </a>
         </div>
@@ -75,14 +64,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
 
           <li class="nav-item">
+            <!-- Route to Component !-->
             <router-link to="/dashboard" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt blue"></i>
               <p>
                 Dashboard      
+              </p>
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/map" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt blue"></i>
+              <p>
+                Map     
               </p>
             </router-link>
           </li>
@@ -150,14 +146,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
+  <!-- Contains page content -->
   <div class="content-wrapper">
    
 
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
-
+      <!-- Components from routes displayed in router-view !-->
       <router-view></router-view>
       <vue-progress-bar></vue-progress-bar>
        
@@ -173,7 +169,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <footer class="main-footer">
     <!-- To the right -->
     <div class="float-right d-none d-sm-inline">
-      Anything you want
     </div>
     <!-- Default to the left -->
      All rights reserved.
@@ -185,6 +180,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 window.user = @json(auth()->user())
 @endauth
 </script>
+<!-- Import App.js Script !-->
 <script src="/js/app.js"></script>
 </body>
 </html>

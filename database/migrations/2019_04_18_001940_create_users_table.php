@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('type')->default('user');
             $table->mediumText('bio')->nullable();
             $table->string('photo')->default('profile.png');
+            $table->integer('party_id')->unsigned()->nullable();
+            $table->foreign('party_id')->references('party_id')->on('party');
             $table->rememberToken();
             $table->timestamps();
         });
