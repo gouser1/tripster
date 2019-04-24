@@ -14,6 +14,16 @@ import {
     AlertError
 } from 'vform';
 
+
+import Vuetify from 'vuetify'
+Vue.use(Vuetify)
+
+import 'babel-polyfill'
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+
 import Gate from "./Gate";
 Vue.prototype.$gate = new Gate(window.user);
 
@@ -29,6 +39,8 @@ const toast = Swal.mixin({
 });
 
 window.toast = toast;
+
+
 
 window.Form = Form;
 Vue.component(HasError.name, HasError)
@@ -133,6 +145,10 @@ Vue.component(
 );
 
 const app = new Vue({
+    created() {
+        AOS.init();
+    },
+
     el: '#app',
     router
 });

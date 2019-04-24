@@ -1,89 +1,93 @@
 <template>
-  <div class="App"/>
+  <div>
+    <v-container grid-list-lg v-if="$gate.isInParty()">
+      <h2
+        v-for="party in party_info"
+        :key="party.party_id"
+        class="text-xs-center"
+      >{{party.party_name}}</h2>
+
+      <v-divider></v-divider>
+
+      <v-layout row wrap>
+        <v-flex
+          xs4
+          class="text-xs-center font-weight-black"
+          v-for="party in party_users"
+          :key="party.id"
+        >
+          <v-card color="blue-grey lighten-1">
+            <v-responsive>
+              <v-avatar size="72" class="my-3"></v-avatar>
+            </v-responsive>
+            <v-card-text class="title">{{ party.name }}</v-card-text>
+
+            <v-card-text class="subheading grey lighten-2">Email</v-card-text>
+            <v-card-text class="grey lighten-2">{{ party.email}}</v-card-text>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
+    <v-form v-if="$gate.isNotInParty()">
+      <v-container>
+        <v-layout>
+          <v-flex xs12 md4>
+            <v-text-field v-model="form.party_name" label="Party Name" required></v-text-field>
+          </v-flex>
+
+          <v-flex xs12 md4>
+            <v-text-field v-model="form.friends_emails" label="Friends Emails" required></v-text-field>
+          </v-flex>
+
+          <v-flex xs12 md4>
+            <v-btn @click.prevent="submit">submit</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-form>
+  </div>
 </template>
 
+
+
+
 <script>
-import MarkerClusterer from "@google/markerclusterer";
-import gmapsInit from "../gmaps";
-const locations = [
-  {
-    position: {
-      lat: 48.16091,
-      lng: 16.38333
-    }
-  },
-  {
-    position: {
-      lat: 48.17427,
-      lng: 16.32962
-    }
-  },
-  {
-    position: {
-      lat: 48.14614,
-      lng: 16.29703
-    }
-  },
-  {
-    position: {
-      lat: 48.13583,
-      lng: 16.19446
-    }
-  },
-  {
-    position: {
-      lat: 48.306091,
-      lng: 14.28644
-    }
-  },
-  {
-    position: {
-      lat: 47.50304,
-      lng: 9.74707
-    }
-  }
-];
 export default {
-  name: `App`,
-  async mounted() {
-    try {
-      const google = await gmapsInit();
-      const geocoder = new google.maps.Geocoder();
-      const map = new google.maps.Map(this.$el);
-      geocoder.geocode({ address: `Austria` }, (results, status) => {
-        if (status !== `OK` || !results[0]) {
-          throw new Error(status);
+  data() {
+    return {
+      party_info: [],
+      party_users: [],
+      form: new Form({
+        party_name: "",
+        friends_emails: ""
+      })
+    };
+  },
+
+  created() {
+    // Get data from api.php & then assign data from response to party array
+    axios.get("/api/Party").then(({ data }) => {
+      // Party information is stored in the first index of the response array
+      this.party_info.push(data[0]);
+
+      // Users are stored after the first index
+      var i;
+      for (i = 1; i < data.length; i++) {
+        this.party_users.push(data[i]);
+      }
+    });
+    var test = this.$gate.isInParty();
+  },
+  methods: {
+    submit() {
+      this.form.post("api/Party").then(function(res) {
+        if (res.status === 200) {
+          location.reload();
         }
-        map.setCenter(results[0].geometry.location);
-        map.fitBounds(results[0].geometry.viewport);
       });
-      const markerClickHandler = marker => {
-        map.setZoom(13);
-        map.setCenter(marker.getPosition());
-      };
-      const markers = locations.map(location => {
-        const marker = new google.maps.Marker({ ...location, map });
-        marker.addListener(`click`, () => markerClickHandler(marker));
-        return marker;
-      });
-      new MarkerClusterer(map, markers, {
-        imagePath: `https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m`
-      });
-    } catch (error) {
-      console.error(error);
     }
   }
 };
 </script>
 
-<style>
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-.App {
-  width: 100vw;
-  height: 100vh;
-}
-</style>

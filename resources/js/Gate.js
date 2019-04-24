@@ -18,5 +18,17 @@ export default class Gate {
         }
     }
 
+    isInParty() {
+        if (this.user.party_id !== null) {
+            return true;
+        }
+    }
+
+    isNotInParty() {
+        if (this.user.party_id === null) {
+            return true;
+        }
+    }
+
 
 }

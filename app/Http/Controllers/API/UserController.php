@@ -14,6 +14,9 @@ class UserController extends Controller
     {
         $this->middleware('auth:api');
     }
+    public function identities() {
+        return $this->hasMany('../SocialIdentity');
+     }
 
     /**
      * Display a listing of the resource.
